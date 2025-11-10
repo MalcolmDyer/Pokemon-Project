@@ -1,0 +1,25 @@
+# Compiled bytecode
+*.class
+
+# IDE metadata
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# Build outputs
+bin/
+out/
+target/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Local artifacts
+*.log
+*.tmp
+
+# Personal screenshots accidentally dropped into the repo
+Screenshot *.png
