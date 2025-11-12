@@ -28,10 +28,23 @@ public class Driver {
     private static final int SUB_MENU2_SEARCH_BY_SPEED = 2;
 
     // ==== Sub menu 3 - attribute: HP
-    //TODO create constants for sub menu 3 options instead of them being hard coded
+    private static final int SUB_MENU3_FIND_SPECIFIC_HP = 1;
+    private static final int SUB_MENU3_FIND_HP_RANGE = 2;
+    private static final int SUB_MENU3_FIND_LOWEST_HP = 3;
+    private static final int SUB_MENU3_FIND_HIGHEST_HP = 4;
+    private static final String SUB_MENU3_OPTION_PATTERN =
+            "[" + SUB_MENU_BACK + "-" + SUB_MENU3_FIND_HIGHEST_HP + "]";
 
     // ==== sub menu 4 - attribute: speed
-    //TODO create constants for sub menu 3 options instead of them being hard coded
+    private static final int SUB_MENU4_FASTEST_SPEED = 1;
+    private static final int SUB_MENU4_SLOWEST_SPEED = 2;
+    private static final int SUB_MENU4_TOP3_FASTEST = 3;
+    private static final int SUB_MENU4_BOTTOM3_SLOWEST = 4;
+    private static final int SUB_MENU4_SPEED_RANGE = 5;
+    private static final int SUB_MENU4_TOP3_GROUPS = 6;
+    private static final int SUB_MENU4_LARGEST_GROUP = 7;
+    private static final String SUB_MENU4_OPTION_PATTERN =
+            "[" + SUB_MENU_BACK + "-" + SUB_MENU4_LARGEST_GROUP + "]";
 
     private static final String DEFAULT_FILE = "pokemon.csv";
     private static final String RESULTS_FILE = "character_names.txt";
@@ -223,15 +236,15 @@ public class Driver {
 private static int showSubMenu3() {
     while (true) {
         System.out.println("Search by Hit Points");
-        System.out.println("0 - Go back to previous menu");
-        System.out.println("1 - Find a character with a specific hit point value");
-        System.out.println("2 - Find characters within a specific range of hit values");
-        System.out.println("3 - Find the character with the lowest hit point value");
-        System.out.println("4 - Find the character with the highest hit point value");
+        System.out.println(SUB_MENU_BACK + " - Go back to previous menu");
+        System.out.println(SUB_MENU3_FIND_SPECIFIC_HP + " - Find a character with a specific hit point value");
+        System.out.println(SUB_MENU3_FIND_HP_RANGE + " - Find characters within a specific range of hit values");
+        System.out.println(SUB_MENU3_FIND_LOWEST_HP + " - Find the character with the lowest hit point value");
+        System.out.println(SUB_MENU3_FIND_HIGHEST_HP + " - Find the character with the highest hit point value");
         System.out.print("Enter an option: ");
 
         String choice = SCANNER.nextLine().trim();
-        if (choice.matches("[0-4]")) {
+        if (choice.matches(SUB_MENU3_OPTION_PATTERN)) {
             return Integer.parseInt(choice);
         }
 
@@ -243,22 +256,22 @@ private static int showSubMenu3() {
 private static int showSubMenu4() {
     while (true) {
         System.out.println("Search by Speed");
-        System.out.println("0 - Go back to previous menu");
-        System.out.println("1 - Which character has the fastest speed");
-        System.out.println("2 - Which character has the slowest speed");
-        System.out.println("3 - Which characters are part of the top 3 fastest speeds");
-        System.out.println("4 - Which characters are part of the 3 slowest speeds");
-        System.out.println("5 - Which characters are part of a specific range of speeds");
-        System.out.println("6 - What are the top 3 speed groups, and what is the list of characters which are part of each speed group");
-        System.out.println("7 - Which group of characters represent the largest speed group");
+        System.out.println(SUB_MENU_BACK + " - Go back to previous menu");
+        System.out.println(SUB_MENU4_FASTEST_SPEED + " - Which character has the fastest speed");
+        System.out.println(SUB_MENU4_SLOWEST_SPEED + " - Which character has the slowest speed");
+        System.out.println(SUB_MENU4_TOP3_FASTEST + " - Which characters are part of the top 3 fastest speeds");
+        System.out.println(SUB_MENU4_BOTTOM3_SLOWEST + " - Which characters are part of the 3 slowest speeds");
+        System.out.println(SUB_MENU4_SPEED_RANGE + " - Which characters are part of a specific range of speeds");
+        System.out.println(SUB_MENU4_TOP3_GROUPS + " - What are the top 3 speed groups, and what is the list of characters which are part of each speed group");
+        System.out.println(SUB_MENU4_LARGEST_GROUP + " - Which group of characters represent the largest speed group");
         System.out.print("Enter an option: ");
 
         String choice = SCANNER.nextLine().trim();
-        if (choice.matches("[0-7]")) {
+        if (choice.matches(SUB_MENU4_OPTION_PATTERN)) {
             return Integer.parseInt(choice);
         }
 
-        System.out.println("Please enter a number between 0 and 7.");
+        System.out.println("Please enter a number between " + SUB_MENU_BACK + " and " + SUB_MENU4_LARGEST_GROUP + ".");
     }
 }
 
