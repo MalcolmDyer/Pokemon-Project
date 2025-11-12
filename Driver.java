@@ -9,19 +9,29 @@ import java.util.Scanner;
 public class Driver {
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    // ==== Main menu ====
     private static final int MENU_EXIT = 1;
     private static final int MENU_OPEN_FILE = 2;
     private static final int MENU_SEARCH_BY_NAME = 3;
     private static final int MENU_SEARCH_BY_ATTRIBUTES = 4;
     private static final int MENU_UNIT_TEST = 10;
 
+    // ==== Sub menus ====
     private static final int SUB_MENU_BACK = 0;
 
+    // ==== Sub menu 1
     private static final int SUB_MENU1_PRINT_LINES = 1;
     private static final int SUB_MENU1_WRITE_NAMES = 2;
 
+    // ==== Sub menu 2 - attribute search
     private static final int SUB_MENU2_SEARCH_BY_HITPOINTS = 1;
     private static final int SUB_MENU2_SEARCH_BY_SPEED = 2;
+
+    // ==== Sub menu 3 - attribute: HP
+    //TODO create constants for sub menu 3 options instead of them being hard coded
+
+    // ==== sub menu 4 - attribute: speed
+    //TODO create constants for sub menu 3 options instead of them being hard coded
 
     private static final String DEFAULT_FILE = "pokemon.csv";
     private static final String RESULTS_FILE = "character_names.txt";
@@ -189,6 +199,9 @@ public class Driver {
         System.out.println(row);
     }
 
+
+    //      ==== Attribute Search ====
+
     private static int showSubMenu2() {
         while (true) {
             System.out.println("Search by Attributes Menu");
@@ -206,6 +219,50 @@ public class Driver {
         }
     }
 
+//      ==== Attribute menu: HP ====
+private static int showSubMenu3() {
+    while (true) {
+        System.out.println("Search by Hit Points");
+        System.out.println("0 - Go back to previous menu");
+        System.out.println("1 - Find a character with a specific hit point value");
+        System.out.println("2 - Find characters within a specific range of hit values");
+        System.out.println("3 - Find the character with the lowest hit point value");
+        System.out.println("4 - Find the character with the highest hit point value");
+        System.out.print("Enter an option: ");
+
+        String choice = SCANNER.nextLine().trim();
+        if (choice.matches("[0-4]")) {
+            return Integer.parseInt(choice);
+        }
+
+        System.out.println("Please enter a number between 0 and 4.");
+    }
+}
+
+//      ==== Attribute menu: Speed ====
+private static int showSubMenu4() {
+    while (true) {
+        System.out.println("Search by Speed");
+        System.out.println("0 - Go back to previous menu");
+        System.out.println("1 - Which character has the fastest speed");
+        System.out.println("2 - Which character has the slowest speed");
+        System.out.println("3 - Which characters are part of the top 3 fastest speeds");
+        System.out.println("4 - Which characters are part of the 3 slowest speeds");
+        System.out.println("5 - Which characters are part of a specific range of speeds");
+        System.out.println("6 - What are the top 3 speed groups, and what is the list of characters which are part of each speed group");
+        System.out.println("7 - Which group of characters represent the largest speed group");
+        System.out.print("Enter an option: ");
+
+        String choice = SCANNER.nextLine().trim();
+        if (choice.matches("[0-7]")) {
+            return Integer.parseInt(choice);
+        }
+
+        System.out.println("Please enter a number between 0 and 7.");
+    }
+}
+
+
     public static void handleSearchByAttributes() {
         if (sortedNames.isEmpty() || NAME_TO_ROW.isEmpty()) {
             System.out.println("Load data before searching.");
@@ -217,10 +274,10 @@ public class Driver {
             case SUB_MENU_BACK:
                 return;
             case SUB_MENU2_SEARCH_BY_HITPOINTS:
-                //TODO
+                showSubMenu3();
                 break;
             case SUB_MENU2_SEARCH_BY_SPEED:
-                //TODO
+                showSubMenu4();
                 break;
             default:
                 System.out.println("Unknown sub-option selected.");
