@@ -12,6 +12,7 @@
 bin/
 out/
 target/
+javadoc/
 
 # OS noise
 .DS_Store
@@ -20,6 +21,7 @@ Thumbs.db
 # Local artifacts
 *.log
 *.tmp
+*.zip
 
 # Personal screenshots accidentally dropped into the repo
 Screenshot *.png

@@ -4,10 +4,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Reads raw CSV data from a file into memory.
+ */
 public class ReadData implements IReadData {
     private final ArrayList<String> rawData = new ArrayList<>();
     private String currentFileName;
 
+    /**
+     * Creates a new reader.
+     */
+    public ReadData() {
+        // Default constructor
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean openDataFile(String fileName) {
         if (fileName == null || fileName.isBlank()) {
@@ -24,6 +37,9 @@ public class ReadData implements IReadData {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean readDataFile() {
         if (currentFileName == null) {
@@ -44,6 +60,9 @@ public class ReadData implements IReadData {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<String> getRawDataList() {
         return new ArrayList<>(rawData);

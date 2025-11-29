@@ -1,14 +1,27 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 
+/**
+ * Helper methods for viewing and verifying loaded Pokemon data.
+ */
 public class TestData {
     private static final int LINES_TO_PRINT = 7;
     private final IWriteData writeData;
 
+    /**
+     * Creates a new TestData helper.
+     *
+     * @param writeData writer used to persist test output
+     */
     public TestData(IWriteData writeData) {
         this.writeData = writeData;
     }
 
+    /**
+     * Prints the first and last few lines of the dataset.
+     *
+     * @param rawData loaded CSV rows
+     */
     public void printFirstAndLastSeven(ArrayList<String> rawData) {
         if (rawData == null || rawData.isEmpty()) {
             System.out.println("No data available. Load the file first.");
@@ -28,6 +41,13 @@ public class TestData {
         }
     }
 
+    /**
+     * Writes all unique character names to a file.
+     *
+     * @param characterNames names to persist
+     * @param fileName       target file name
+     * @return true if the write succeeds
+     */
     public boolean writeCharacterNames(HashSet<String> characterNames, String fileName) {
         if (characterNames == null || characterNames.isEmpty()) {
             System.out.println("There are no character names to write.");

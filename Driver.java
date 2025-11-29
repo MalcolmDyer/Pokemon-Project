@@ -8,6 +8,9 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * Console application that loads Pokemon data and exposes search menus.
+ */
 public class Driver {
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -57,6 +60,13 @@ public class Driver {
     private static final String SPEED_COLUMN = "speed";
     private static final String HP_COLUMN = "hp";
 
+    /**
+     * Hidden constructor because this class only provides static helpers.
+     */
+    private Driver() {
+        // Not meant to be instantiated
+    }
+
     private static final IReadData DATA_READER = new ReadData();
     private static final IAnalyzePokemonData DATA_ANALYZER = new AnalyzePokemonData();
     private static final TestData TEST_DATA = new TestData(new WriteData());
@@ -72,6 +82,11 @@ public class Driver {
     private static int minSpeedValue = Integer.MAX_VALUE;
     private static int maxSpeedValue = Integer.MIN_VALUE;
 
+    /**
+     * Launches the menu loop.
+     *
+     * @param args unused CLI arguments
+     */
     public static void main(String[] args) {
         boolean running = true;
 
@@ -101,6 +116,11 @@ public class Driver {
         }
     }
 
+    /**
+     * Displays the main menu and prompts for a selection.
+     *
+     * @return validated menu choice
+     */
     private static int showMenu() {
         while (true) {
             System.out.println();
@@ -122,6 +142,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Opens a CSV file, reads data, and caches values for later searches.
+     */
     private static void handleOpenAndRead() {
         for (int attempt = 1; attempt <= MAX_FILENAME_ATTEMPTS; attempt++) {
             System.out.print("Enter data file name (default " + DEFAULT_FILE + "): ");
@@ -159,6 +182,9 @@ public class Driver {
         System.out.println("Unable to open the file after " + MAX_FILENAME_ATTEMPTS + " attempts.");
     }
 
+    /**
+     * Runs unit-test style actions such as printing lines or writing names.
+     */
     private static void handleUnitTests() {
         if (rawData.isEmpty()) {
             System.out.println("Load data before running tests.");
@@ -181,6 +207,11 @@ public class Driver {
         }
     }
 
+    /**
+     * Shows the unit test sub menu.
+     *
+     * @return validated option
+     */
     private static int showSubMenu1() {
         while (true) {
             System.out.println();
@@ -199,6 +230,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Searches for a character by name using cached indexes.
+     */
     private static void handleSearchByName() {
         if (sortedNames.isEmpty() || NAME_TO_ROW.isEmpty()) {
             System.out.println("Load data before searching.");
@@ -231,6 +265,11 @@ public class Driver {
 
 
     //      ==== Attribute Search ====
+    /**
+     * Shows the attribute search menu.
+     *
+     * @return validated option
+     */
     private static int showSubMenu2() {
         while (true) {
             System.out.println();
@@ -250,6 +289,11 @@ public class Driver {
     }
 
     //      ==== Attribute menu: HP ====
+    /**
+     * Shows the HP search menu.
+     *
+     * @return validated option
+     */
     private static int showSubMenu3() {
         while (true) {
             System.out.println();
@@ -271,6 +315,11 @@ public class Driver {
     }
 
     //      ==== Attribute menu: Speed ====
+    /**
+     * Shows the speed search menu.
+     *
+     * @return validated option
+     */
     private static int showSubMenu4() {
         while (true) {
             System.out.println();
@@ -295,6 +344,9 @@ public class Driver {
     }
 
 
+    /**
+     * Entry point for attribute-driven searches.
+     */
     public static void handleSearchByAttributes() {
         if (!hasCharacterData()) {
             return;
@@ -319,6 +371,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Presents HP search options and routes to specific handlers.
+     */
     private static void handleSearchByHP() {
         if (!hasCharacterData()) {
             return;
@@ -349,6 +404,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Finds characters with an exact HP value.
+     */
     private static void handleSpecificHpSearch() {
         displayRange("HP", minHpValue, maxHpValue);
         int targetHp = promptForIntWithinRange("Enter the HP value to search for: ", minHpValue, maxHpValue);
@@ -362,6 +420,9 @@ public class Driver {
         printCharacterDetails(matches);
     }
 
+    /**
+     * Finds characters whose HP falls within a given range.
+     */
     private static void handleHpRangeSearch() {
         displayRange("HP", minHpValue, maxHpValue);
         int minHp = promptForIntWithinRange("Enter minimum HP (inclusive): ", minHpValue, maxHpValue);
@@ -382,6 +443,11 @@ public class Driver {
         printCharacterDetails(matches);
     }
 
+    /**
+     * Displays characters with either the minimum or maximum HP.
+     *
+     * @param findLowest true to find the minimum HP, false for maximum
+     */
     private static void handleExtremumHpSearch(boolean findLowest) {
         int targetHp = findLowest ? minHpValue : maxHpValue;
         TreeSet<PokemonCharacter> matches = collectCharactersByHpRange(targetHp, targetHp);
@@ -395,6 +461,9 @@ public class Driver {
         printCharacterDetails(matches);
     }
 
+    /**
+     * Presents speed search options and routes to specific handlers.
+     */
     private static void handleSearchBySpeed() {
         if (!hasCharacterData()) {
             return;
@@ -434,6 +503,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Finds characters whose speed falls within a given range.
+     */
     private static void handleSpeedRangeSearch() {
         displayRange("Speed", minSpeedValue, maxSpeedValue);
         int minSpeed = promptForIntWithinRange("Enter minimum speed (inclusive): ", minSpeedValue, maxSpeedValue);
@@ -454,6 +526,11 @@ public class Driver {
         printCharacterDetails(matches);
     }
 
+    /**
+     * Displays characters with either the minimum or maximum speed.
+     *
+     * @param findLowest true to show the slowest value, false for fastest
+     */
     private static void handleExtremumSpeedSearch(boolean findLowest) {
         int targetSpeed = findLowest ? minSpeedValue : maxSpeedValue;
         TreeSet<PokemonCharacter> matches = collectCharactersBySpeedRange(targetSpeed, targetSpeed);
@@ -467,6 +544,11 @@ public class Driver {
         printCharacterDetails(matches);
     }
 
+    /**
+     * Lists the fastest or slowest speed values and their characters.
+     *
+     * @param fastest true for fastest top values, false for slowest bottom values
+     */
     private static void handleTopSpeedValues(boolean fastest) {
         Map<Integer, TreeSet<PokemonCharacter>> groups = buildSpeedBuckets();
         if (groups.isEmpty()) {
@@ -493,6 +575,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Shows the three largest speed groups by number of characters.
+     */
     private static void handleTopSpeedGroupsBySize() {
         Map<Integer, TreeSet<PokemonCharacter>> groups = buildSpeedBuckets();
         if (groups.isEmpty()) {
@@ -539,6 +624,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Shows the single largest speed group.
+     */
     private static void handleLargestSpeedGroup() {
         Map<Integer, TreeSet<PokemonCharacter>> groups = buildSpeedBuckets();
         if (groups.isEmpty()) {
@@ -565,6 +653,9 @@ public class Driver {
         printCharacterDetails(largest.getValue());
     }
 
+    /**
+     * Builds maps for quick lookups by lowercased name.
+     */
     private static void buildSearchIndex() {
         NAME_TO_ROW.clear();
         if (rawData.isEmpty()) {
@@ -588,6 +679,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Parses raw rows into PokemonCharacter objects and caches min/max stats.
+     */
     private static void buildPokemonCharacters() {
         resetCharacterCollections();
         if (rawData.size() <= 1) {
@@ -630,6 +724,9 @@ public class Driver {
         }
     }
 
+    /**
+     * Clears cached character lists and resets extrema.
+     */
     private static void resetCharacterCollections() {
         CHARACTERS.clear();
         CHARACTER_BY_NAME.clear();
@@ -639,6 +736,11 @@ public class Driver {
         maxSpeedValue = Integer.MIN_VALUE;
     }
 
+    /**
+     * Verifies that character data is available for searching.
+     *
+     * @return true if data exists
+     */
     private static boolean hasCharacterData() {
         if (CHARACTERS.isEmpty()) {
             System.out.println("Load data before searching.");
@@ -647,6 +749,13 @@ public class Driver {
         return true;
     }
 
+    /**
+     * Prints the available range for a stat.
+     *
+     * @param label stat label
+     * @param min   minimum value
+     * @param max   maximum value
+     */
     private static void displayRange(String label, int min, int max) {
         if (min == Integer.MAX_VALUE || max == Integer.MIN_VALUE) {
             System.out.println("No " + label.toLowerCase() + " data available.");
@@ -655,6 +764,14 @@ public class Driver {
         }
     }
 
+    /**
+     * Prompts for an integer bounded between min and max.
+     *
+     * @param prompt text to show
+     * @param min    minimum allowed value
+     * @param max    maximum allowed value
+     * @return validated integer
+     */
     private static int promptForIntWithinRange(String prompt, int min, int max) {
         if (min == Integer.MAX_VALUE || max == Integer.MIN_VALUE) {
             return promptForInt(prompt);
@@ -669,6 +786,13 @@ public class Driver {
         }
     }
 
+    /**
+     * Collects characters whose HP falls within the provided range.
+     *
+     * @param minHp minimum HP inclusive
+     * @param maxHp maximum HP inclusive
+     * @return ordered set of matches
+     */
     private static TreeSet<PokemonCharacter> collectCharactersByHpRange(int minHp, int maxHp) {
         TreeSet<PokemonCharacter> matches = new TreeSet<>(PokemonCharacter.BY_HP_ASC);
         for (PokemonCharacter character : CHARACTERS) {
@@ -679,6 +803,13 @@ public class Driver {
         return matches;
     }
 
+    /**
+     * Collects characters whose speed falls within the provided range.
+     *
+     * @param minSpeed minimum speed inclusive
+     * @param maxSpeed maximum speed inclusive
+     * @return ordered set of matches
+     */
     private static TreeSet<PokemonCharacter> collectCharactersBySpeedRange(int minSpeed, int maxSpeed) {
         TreeSet<PokemonCharacter> matches = new TreeSet<>(PokemonCharacter.BY_SPEED_ASC);
         for (PokemonCharacter character : CHARACTERS) {
@@ -689,6 +820,11 @@ public class Driver {
         return matches;
     }
 
+    /**
+     * Groups characters by their speed value.
+     *
+     * @return map from speed to ordered set of characters
+     */
     private static Map<Integer, TreeSet<PokemonCharacter>> buildSpeedBuckets() {
         Map<Integer, TreeSet<PokemonCharacter>> groups = new HashMap<>();
         for (PokemonCharacter character : CHARACTERS) {
@@ -698,12 +834,22 @@ public class Driver {
         return groups;
     }
 
+    /**
+     * Prints a formatted line for each character in a set.
+     *
+     * @param characters ordered set of characters
+     */
     private static void printCharacterDetails(TreeSet<PokemonCharacter> characters) {
         for (PokemonCharacter character : characters) {
             System.out.println(" - " + character.formatDetails());
         }
     }
 
+    /**
+     * Prints details for a set of names by looking up their objects.
+     *
+     * @param names ordered names
+     */
     private static void printCharacterDetailsForNames(TreeSet<String> names) {
         for (String name : names) {
             PokemonCharacter character = findCharacterByName(name);
@@ -713,6 +859,12 @@ public class Driver {
         }
     }
 
+    /**
+     * Finds a character by name, case-insensitive.
+     *
+     * @param name character name to find
+     * @return matching character or null
+     */
     private static PokemonCharacter findCharacterByName(String name) {
         if (name == null) {
             return null;
@@ -729,6 +881,12 @@ public class Driver {
         return null;
     }
 
+    /**
+     * Capitalizes the first letter of the provided word.
+     *
+     * @param word text to capitalize
+     * @return capitalized word or empty string if null/blank
+     */
     private static String capitalize(String word) {
         if (word == null || word.isEmpty()) {
             return "";
@@ -736,6 +894,12 @@ public class Driver {
         return Character.toUpperCase(word.charAt(0)) + word.substring(1);
     }
 
+    /**
+     * Safely parses an integer or returns null on failure.
+     *
+     * @param value text to parse
+     * @return integer value or null
+     */
     private static Integer parseInteger(String value) {
         if (value == null) {
             return null;
@@ -751,6 +915,12 @@ public class Driver {
         }
     }
 
+    /**
+     * Prompts repeatedly until a valid integer is entered.
+     *
+     * @param prompt message to display
+     * @return parsed integer
+     */
     private static int promptForInt(String prompt) {
         while (true) {
             System.out.print(prompt);

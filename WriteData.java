@@ -6,7 +6,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Writes processed data back to disk.
+ */
 public class WriteData implements IWriteData {
+    /**
+     * Creates a new writer.
+     */
+    public WriteData() {
+        // Default constructor
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean writeDataToFile(HashSet<String> someData, String fileName) {
         if (someData == null || someData.isEmpty() || fileName == null || fileName.isBlank()) {

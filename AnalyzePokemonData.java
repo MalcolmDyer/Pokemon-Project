@@ -2,9 +2,22 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Performs data analysis tasks on Pokemon CSV rows.
+ */
 public class AnalyzePokemonData implements IAnalyzePokemonData {
     private static final String NAME_COLUMN = "name";
 
+    /**
+     * Creates a new analyzer instance.
+     */
+    public AnalyzePokemonData() {
+        // Default constructor
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HashSet<String> getAllCharacterNames(ArrayList<String> originalData) {
         HashSet<String> characterNames = new HashSet<>();
